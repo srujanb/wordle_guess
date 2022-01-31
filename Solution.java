@@ -10,9 +10,9 @@ public class Solution {
 
     public static void main(String[] args) {
 
+        Data.init();
         List<Word> possibleWords = new ArrayList<>();
         List<Word> otherWords = new ArrayList<>();
-        Data.init();
         List<String> tweetWords = new ArrayList<>(Arrays.asList(Data.tweets.split(" ")));
 
 
@@ -38,10 +38,10 @@ public class Solution {
             }
         }
 
+        // find possibilities
         Map<Word, Integer>  wordMap = new HashMap<>();
 
         for (int i = 0; i < tweetWords.size(); i++) {
-//            System.out.println("tweet word:" + i + " / " + tweetWords.size());
             if (tweetWords.get(i).equals("Wordle")) {
                 if (isNumber(tweetWords.get(i+1))) {
                     if (isNumber(tweetWords.get(i+2))) {
@@ -51,18 +51,20 @@ public class Solution {
                             if (!tweetWords.get(j).equals("YYYYY")) {
                                 Decoration decoration = new Decoration(tweetWords.get(j));
                                 for (Word word : possibleWords) {
-//                                    System.out.println("checking word:" + word);
                                     if (word.possibleDecorations.contains(decoration)) {
                                         // word is possible
                                         if (!wordMap.containsKey(word)) {
                                             wordMap.put(word, 1);
                                         } else {
-                                            wordMap.put(word, wordMap.get(word) + 1*(word.possibleDecorations.get(word.possibleDecorations.indexOf(decoration)).frequency/100));
+                                            wordMap.put(word, wordMap.get(word) + (
+                                                    word.possibleDecorations.get(
+                                                            word.possibleDecorations.indexOf(decoration))
+                                                            .frequency/100));
                                         }
                                     } else {
                                         // word is not possible
                                         if (!wordMap.containsKey(word)) {
-                                            wordMap.put(word, -1);
+                                            wordMap.put(word, -200);
                                         } else {
                                             wordMap.put(word, wordMap.get(word) - 200);
                                         }
@@ -123,7 +125,7 @@ class Data {
     public static String tweets;
 
     public static void init() {
-        Path fileName = Path.of("/LC/src/wordle/tweets/wordle210");
+        Path fileName = Path.of("/Users/sbarai/IdeaProjects/LC/src/wordle/tweets/wordle215");
 
         try {
             tweets = Files.readString(fileName);

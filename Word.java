@@ -32,10 +32,8 @@ public class Word {
             possibleDecorations.get(
                     possibleDecorations.indexOf(decoration)
             ).frequency++;
-//            System.out.println("Found decoration");
         } else {
             possibleDecorations.add(decoration);
-//            System.out.println("New Decoration");
         }
     }
 }
